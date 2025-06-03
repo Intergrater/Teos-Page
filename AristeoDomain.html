@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP Contact | Aristeo Herrera</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Opening Transition Styles */
+        .transition-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0a0a0a;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .fly-in {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+            animation: flyby 1.5s ease-out forwards;
+            z-index: 10000;
+        }
+
+        @keyframes flyby {
+            0% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            30% {
+                opacity: 1;
+            }
+            70% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        .bird {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='rgba(255,255,255,0.7)'%3E%3Cpath d='M23.643 4.937c-.835.37-1.732.62-2.675.733.962-.576 1.7-1.49 2.048-2.578-.9.534-1.897.922-2.958 1.13-.85-.904-2.06-1.47-3.4-1.47-2.572 0-4.658 2.086-4.658 4.66 0 .364.042.718.122 1.06-3.873-.195-7.304-2.05-9.602-4.868-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878-.764-.025-1.482-.234-2.11-.583v.06c0 2.257 1.605 4.14 3.737 4.568-.392.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.352 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z'/%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            animation: birdFly 2s ease-in-out forwards;
+            z-index: 10001;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(0.95);
+            }
+        }
+
+        @keyframes birdFly {
+            0% {
+                transform: translateX(-60%) translateY(0) scale(0.8) rotateY(90deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translateX(-40%) translateY(0) scale(0.9) rotateY(60deg);
+            }
+            25% {
+                transform: translateX(-20%) translateY(-10px) scale(1) rotateY(30deg);
+            }
+            50% {
+                transform: translateX(0) translateY(0) scale(1.1) rotateY(0deg);
+            }
+            70% {
+                opacity: 1;
+                transform: translateX(30%) translateY(10px) scale(1) rotateY(-30deg);
+            }
+            90% {
+                transform: translateX(70%) translateY(-20px) scale(0.9) rotateY(-60deg);
+            }
+            100% {
+                transform: translateX(120%) translateY(-30px) scale(0.8) rotateY(-90deg);
+                opacity: 0;
+            }
+        }
+
+        .transition-container {
+            perspective: 1000px;
+        }
+
+        .bird {
+            transform-style: preserve-3d;
+            transition: transform 0.2s ease-out;
+        }
+
+        /* New particle animation styles */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            animation-duration: 15s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+            filter: blur(0.5px);
+        }
+
+        @keyframes float-right {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            100% {
+                transform: translate(100px, -100px) rotate(360deg);
+            }
+        }
+
+        @keyframes float-left {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            100% {
+                transform: translate(-100px, -100px) rotate(-360deg);
+            }
+        }
+
+        /* Glow effect animation */
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.1);
+            }
+            50% {
+                box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.2);
+            }
+        }
+
+        .glow-animation {
+            animation: glow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes spiral {
+            0% {
+                transform: rotate(0deg) scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: rotate(180deg) scale(1.2);
+                opacity: 0.4;
+            }
+            100% {
+                transform: rotate(360deg) scale(1);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes flip {
+            0%, 100% {
+                transform: rotateY(0deg);
+            }
+            50% {
+                transform: rotateY(180deg);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+            }
+        }
+
+        .spiral {
+            animation: spiral 30s infinite linear;
+        }
+
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                circle at center,
+                rgba(50, 50, 50, 0.2) 0%,
+                rgba(10, 10, 10, 1) 100%
+            );
+            z-index: -2;
+            animation: gradient-shift 20s ease infinite;
+        }
+
+        @keyframes gradient-shift {
+            0% {
+                background-size: 150% 150%;
+                background-position: 0% 0%;
+            }
+            50% {
+                background-size: 200% 200%;
+                background-position: 50% 50%;
+            }
+            100% {
+                background-size: 150% 150%;
+                background-position: 0% 0%;
+            }
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #e5e5e5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+        }
+
+        .contact-card {
+            backdrop-filter: blur(10px);
+            background: rgba(20, 20, 20, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            background: rgba(30, 30, 30, 0.8);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Opening Transition -->
+    <div class="transition-container" id="opening-transition">
+        <div class="absolute inset-0 flex items-center justify-center z-[10002]">
+            <div class="text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white opacity-0 animate-[fadeInOut_2s_ease-in-out]">
+                    You're now entering Aristeo's domain
+                </h2>
+                <div class="text-5xl mt-4 inline-block opacity-0 animate-[fadeInOut_2s_0.5s_ease-in-out_forwards,flip_2s_ease-in-out_infinite_both]">
+                    :)
+                </div>
+            </div>
+        </div>
+        <div class="bird" style="top:30%; left:40%; animation-delay:0s; animation-duration:1.7s;"></div>
+        <div class="bird" style="top:40%; left:35%; animation-delay:0.15s; animation-duration:1.5s;"></div>
+        <div class="bird" style="top:50%; left:45%; animation-delay:0.3s; animation-duration:1.8s;"></div>
+        <div class="bird" style="top:60%; left:40%; animation-delay:0.2s; animation-duration:1.6s;"></div>
+        <div class="bird" style="top:70%; left:35%; animation-delay:0.4s; animation-duration:1.9s;"></div>
+        
+        <div class="fly-in" style="top:10%; animation-delay:0.1s; animation-duration:0.8s;"></div>
+        <div class="fly-in" style="top:20%; animation-delay:0.3s; animation-duration:1s;"></div>
+        <div class="fly-in" style="top:30%; animation-delay:0.2s; animation-duration:0.9s;"></div>
+        <div class="fly-in" style="top:40%; animation-delay:0.4s; animation-duration:0.7s;"></div>
+        <div class="fly-in" style="top:50%; animation-delay:0.15s; animation-duration:1.1s;"></div>
+        <div class="fly-in" style="top:60%; animation-delay:0.25s; animation-duration:0.8s;"></div>
+        <div class="fly-in" style="top:70%; animation-delay:0.35s; animation-duration:0.9s;"></div>
+        <div class="fly-in" style="top:80%; animation-delay:0.45s; animation-duration:1s;"></div>
+        <div class="fly-in" style="top:90%; animation-delay:0.2s; animation-duration:0.6s;"></div>
+    </div>
+    <!-- Spiral Background Elements -->
+    <div class="fixed -top-1/2 -left-1/2 w-[200%] h-[200%] z-[-1]">
+        <div class="absolute top-1/4 left-1/4 w-64 h-64 rounded-full border border-gray-700 border-opacity-50 spiral"></div>
+        <div class="absolute top-1/3 left-2/3 w-80 h-80 rounded-full border border-gray-700 border-opacity-50 spiral" style="animation-delay: -10s;"></div>
+        <div class="absolute top-2/3 left-1/3 w-96 h-96 rounded-full border border-gray-700 border-opacity-50 spiral" style="animation-delay: -20s;"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-12 max-w-5xl">
+        <!-- Header Section -->
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 glow-text float-animation">Aristeo Herrera</h1>
+            <p class="text-gray-400 text-xl md:text-2xl mb-4">Coder and Larper</p>
+            <div class="w-24 h-1 bg-gradient-to-r from-gray-700 via-gray-500 to-gray-700 mx-auto rounded-full mt-6"></div>
+        </header>
+
+        <!-- Main Profile Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+            <!-- Profile Image Column -->
+            <div class="lg:col-span-1 flex justify-center lg:justify-end">
+                <div class="relative w-64 h-64 rounded-full overflow-hidden border-4 border-gray-700 shadow-xl pulse-animation">
+                    <img src="https://images.unsplash.com/photo-1536104968055-4d61aa56f46a?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&h=300&q=80" alt="Aristeo Herrera" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
+                </div>
+            </div>
+            
+            <!-- About Column -->
+            <div class="lg:col-span-2 flex items-center">
+                <div>
+                    <h2 class="text-3xl font-semibold mb-4 glow-text">ABOUT ME</h2>
+                    <p class="text-gray-300 leading-relaxed mb-6">
+                        Professional White Supermiscist/Racist. Heil Hitler Niggers
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="px-4 py-2 bg-gray-900 rounded-full text-sm">
+                            <i class="fas fa-award mr-2 text-gray-400"></i> 10+ Years Experience
+                        </div>
+                        <div class="px-4 py-2 bg-gray-900 rounded-full text-sm">
+                            <i class="fas fa-star mr-2 text-gray-400"></i> Industry Recognition
+                        </div>
+                        <div class="px-4 py-2 bg-gray-900 rounded-full text-sm">
+                            <i class="fas fa-users mr-2 text-gray-400"></i> Global Network
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Cards Section -->
+        <h2 class="text-3xl font-semibold mb-8 text-center glow-text">CONTACT INFORMATION</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+            <!-- Email Card -->
+            <div class="contact-card p-6 rounded-lg transition-all duration-300 ease-in-out">
+                <div class="flex items-start mb-4">
+                    <div class="p-3 bg-gray-800 rounded-full mr-4">
+                        <i class="fas fa-envelope text-2xl text-gray-300"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-medium mb-1">Email</h3>
+                        <p class="text-gray-400 text-sm">Preferred method of contact</p>
+                    </div>
+                </div>
+                <a href="mailto:nexgennook@gmail.com" class="text-gray-300 hover:text-white transition-colors">nexgennook@gmail.com</a>
+            </div>
+
+            <!-- Phone Card -->
+            <div class="contact-card p-6 rounded-lg transition-all duration-300 ease-in-out">
+                <div class="flex items-start mb-4">
+                    <div class="p-3 bg-gray-800 rounded-full mr-4">
+                        <i class="fas fa-phone-volume text-2xl text-gray-300"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-medium mb-1">Phone</h3>
+                        <p class="text-gray-400 text-sm">Available during business hours</p>
+                    </div>
+                </div>
+                <a href="tel:+15593436197" class="text-gray-300 hover:text-white transition-colors">(559) 343-6197</a>
+            </div>
+
+            <!-- Location Card -->
+            <div class="contact-card p-6 rounded-lg transition-all duration-300 ease-in-out">
+                <div class="flex items-start mb-4">
+                    <div class="p-3 bg-gray-800 rounded-full mr-4">
+                        <i class="fas fa-map-marker-alt text-2xl text-gray-300"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-medium mb-1">Location</h3>
+                        <p class="text-gray-400 text-sm">Based in California, USA</p>
+                    </div>
+                </div>
+                <p class="text-gray-300">California, USA</p>
+            </div>
+
+            <!-- Social Media Card -->
+            <div class="contact-card p-6 rounded-lg transition-all duration-300 ease-in-out md:col-span-2 lg:col-span-1">
+                <div class="flex items-start mb-4">
+                    <div class="p-3 bg-gray-800 rounded-full mr-4">
+                        <i class="fas fa-share-alt text-2xl text-gray-300"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-medium mb-1">Social Media</h3>
+                        <p class="text-gray-400 text-sm">Connect with me</p>
+                    </div>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="https://www.instagram.com/unpr174285369?igsh=NTc4MTIwNjQ2YQ%3D%3D&utm_source=qr" class="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors">
+                        <i class="fab fa-instagram text-gray-300"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Information Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+            <!-- Availability -->
+            <div class="contact-card p-6 rounded-lg">
+                <h3 class="text-xl font-semibold mb-4 flex items-center">
+                    <i class="fas fa-calendar-day mr-3 text-gray-400"></i> Availability
+                </h3>
+                <ul class="space-y-3 text-gray-300">
+                    <li class="flex items-center">
+                        <span class="w-2 h-2 bg-gray-500 rounded-full mr-3"></span>
+                        <span>Monday - Friday: 9:00 AM - 6:00 PM</span>
+                    </li>
+                    <li class="flex items-center">
+                        <span class="w-2 h-2 bg-gray-500 rounded-full mr-3"></span>
+                        <span>Weekends: By appointment only</span>
+                    </li>
+                    <li class="flex items-center">
+                        <span class="w-2 h-2 bg-gray-500 rounded-full mr-3"></span>
+                        <span>Urgent requests: Available 24/7</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Company -->
+            <div class="contact-card p-6 rounded-lg">
+                <h3 class="text-xl font-semibold mb-4 flex items-center">
+                    <i class="fas fa-building mr-3 text-gray-400"></i> Affilations/Details
+                </h3>
+                <div class="text-gray-300">
+                    <div class="flex items-center mb-3">
+                        <img src="https://via.placeholder.com/40x40/333333/999999?text=Co" alt="Company Logo" class="w-8 h-8 mr-3 rounded">
+                        <span>Aristeo & Co.</span>
+                    </div>
+                    <p class="text-sm mt-2">
+                        Invovled with the SS, Neo-Nazi's, Wanted by the FBI and the DIRTY Jews LOL.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center py-8 border-t border-gray-800">
+            <p class="text-gray-500 mb-4">&copy; <span id="year"></span> Aristeo Herrera. All rights reserved.</p>
+            <p class="text-gray-600 text-sm">Professional contact information | VIP access only</p>
+        </footer>
+    </div>
+
+    <!-- New Particle Background Elements -->
+    <div id="particles" class="fixed inset-0 overflow-hidden pointer-events-none"></div>
+
+    <script>
+        // Generate floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random properties
+                const size = Math.random() * 6 + 1;
+                const posX = Math.random() * window.innerWidth;
+                const posY = Math.random() * window.innerHeight;
+                const animation = Math.random() > 0.5 ? 'float-right' : 'float-left';
+                const delay = Math.random() * 15;
+                const duration = 15 + Math.random() * 20;
+                const opacity = 0.2 + Math.random() * 0.3;
+                const colorType = Math.floor(Math.random() * 3);
+                
+                // Color variations
+                let color;
+                switch(colorType) {
+                    case 0: color = `rgba(100, 100, 100, ${opacity})`; break; // Gray
+                    case 1: color = `rgba(200, 200, 200, ${opacity})`; break; // Light Gray
+                    case 2: color = `rgba(150, 150, 150, ${opacity})`; break; // Medium Gray
+                }
+                
+                // Apply styles
+                Object.assign(particle.style, {
+                    width: `${size}px`,
+                    height: `${size}px`,
+                    left: `${posX}px`,
+                    top: `${posY}px`,
+                    backgroundColor: color,
+                    animationName: animation,
+                    animationDuration: `${duration}s`,
+                    animationDelay: `${delay}s`
+                });
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Add scroll animation effects
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            const elements = document.querySelectorAll('.contact-card, header');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            elements.forEach(el => {
+                el.style.opacity = 0;
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(el);
+            });
+
+            // Remove opening transition after animations complete
+            setTimeout(() => {
+                const transition = document.getElementById('opening-transition');
+                if (transition) {
+                    transition.style.opacity = '0';
+                    setTimeout(() => {
+                        transition.remove();
+                    }, 1000);
+                }
+            }, 2000); // Matches the longest animation duration
+        });
+    </script>
+</body>
+</html>
