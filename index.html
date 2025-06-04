@@ -894,6 +894,45 @@
             }
         }
 
+        /* Pulsing Arrow Indicator for Music Button */
+        .music-arrow-indicator {
+            position: fixed;
+            bottom: 80px;
+            right: 35px;
+            z-index: 100000;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            pointer-events: none;
+            opacity: 0;
+            transform: rotate(135deg);
+            animation: arrowPulse 2s ease-in-out;
+        }
+
+        @keyframes arrowPulse {
+            0% {
+                opacity: 0;
+                transform: rotate(135deg) translateY(10px);
+            }
+            20% {
+                opacity: 1;
+                transform: rotate(135deg) translateY(0px);
+            }
+            80% {
+                opacity: 1;
+                transform: rotate(135deg) translateY(0px);
+            }
+            100% {
+                opacity: 0;
+                transform: rotate(135deg) translateY(-5px);
+            }
+        }
+
+        .music-arrow-indicator::before {
+            content: '↗';
+            display: block;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+
         /* ...existing code... */
     </style>
 </head>
@@ -1223,6 +1262,90 @@
                 }
             }, 2000); // Matches the longest animation duration
         });
+    </script>    <!-- Audio Elements -->
+    <audio id="audio-bg" src="Lost in the Fog.MP3" preload="auto" loop></audio>    <!-- Music Control Button -->
+    <button id="music-toggle" style="position:fixed;bottom:24px;right:24px;z-index:99999;background:rgba(30,30,30,0.8);color:#fff;border:none;border-radius:50%;width:48px;height:48px;box-shadow:0 2px 8px #0006;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background 0.2s;" aria-label="Toggle music">
+        <span id="music-icon" style="font-size:1.5rem;"><i class="fas fa-volume-mute"></i></span>
+    </button>
+    
+    <!-- Arrow Indicator for Music -->
+    <div id="music-arrow" class="music-arrow-indicator">
+        <i class="fas fa-arrow-right"></i>
+    </div>    <script>
+        // Audio logic for background music only
+        const audioBg = document.getElementById('audio-bg');
+        const musicToggle = document.getElementById('music-toggle');
+        const musicIcon = document.getElementById('music-icon');
+        const musicArrow = document.getElementById('music-arrow');
+        let musicPlaying = false;
+        let arrowInterval;
+
+        function toggleMusic() {
+            if (musicPlaying) {
+                // Stop music
+                audioBg.pause();
+                musicIcon.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                musicPlaying = false;
+                
+                // Start showing arrow indicator when music is off
+                startArrowIndicator();
+            } else {
+                // Start music
+                audioBg.volume = 0.5;
+                audioBg.play().catch(() => {
+                    console.log('Audio play failed - user interaction required');
+                });
+                musicIcon.innerHTML = '<i class="fas fa-volume-up"></i>';
+                musicPlaying = true;
+                
+                // Stop showing arrow indicator when music is on
+                stopArrowIndicator();
+            }
+        }
+        
+        function showArrowIndicator() {
+            if (!musicPlaying) {
+                musicArrow.style.opacity = '1';
+                musicArrow.style.transform = 'translateX(-10px)';
+                
+                // Fade out after 3 seconds
+                setTimeout(() => {
+                    musicArrow.style.opacity = '0';
+                    musicArrow.style.transform = 'translateX(0)';
+                }, 3000);
+            }
+        }
+        
+        function startArrowIndicator() {
+            // Clear any existing interval
+            if (arrowInterval) {
+                clearInterval(arrowInterval);
+            }
+            
+            // Show arrow every 10 seconds when music is off
+            arrowInterval = setInterval(showArrowIndicator, 10000);
+            
+            // Show initial arrow after a short delay
+            setTimeout(showArrowIndicator, 2000);
+        }
+        
+        function stopArrowIndicator() {
+            if (arrowInterval) {
+                clearInterval(arrowInterval);
+                arrowInterval = null;
+            }
+            
+            // Hide arrow immediately
+            musicArrow.style.opacity = '0';
+            musicArrow.style.transform = 'translateX(0)';
+        }
+        
+        // Start the arrow indicator since music is off by default
+        document.addEventListener('DOMContentLoaded', function() {
+            startArrowIndicator();
+        });
+        
+        musicToggle.addEventListener('click', toggleMusic);
     </script>
 </body>
 </html>
